@@ -2,15 +2,16 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <string.h>
+#include<math.h>
 typedef struct
 {
 	char MaSV[10]; char HovaTen[40];
 } 
 Sinhvien;
 //.............................................
-void Nhap(char *filename);
-void xuat(char *filename);
-void tim(char *filename);
+void Nhap(char *Filename);
+void Xuat(char *Filename);
+void tim(char *Filename);
 //...............................................
 
 int main()
@@ -30,23 +31,24 @@ while(true)
         scanf("%d",&key);
         switch(key)  
         	{
-case 1:
-fflush(stdin);
-Nhap("Sinhvien.txt");
-printf("\nBam phim bat ky de tiep tuc!");
-                getch();
-	break;
-
-
-           
-
+case 1:{
+		fflush(stdin);
+		Nhap("Sinhvien.txt");
+		printf("\nBam phim bat ky de tiep tuc!");
+        getch();
+		break;
+}
 //.....................
 case 2:
-fflush(stdin);
-xuat("Sinhvien.txt");
- printf("\nBam phim bat ky de tiep tuc!");
-                getch();
+	{
+		fflush(stdin);
+		Xuat("Sinhvien.txt");
+ 		printf("\nBam phim bat ky de tiep tuc!");
+        getch();
 	break;
+		
+	}
+
 //........................
 case 3:
 fflush(stdin);
@@ -65,13 +67,13 @@ case 0:
 
 }}}
 
- void Nhap(char *filename)
+ void Nhap(char *Filename)
  {
  
  FILE *f;
  int n,i;
  Sinhvien sv;
- f=fopen(filename,"ab");
+ f=fopen(Filename,"ab");
  printf("So luong SV:"); scanf("%d",&n);
  for (int i=0;i<n;i++)
  {
@@ -82,22 +84,26 @@ case 0:
  	fwrite(&sv,sizeof(sv),1,f);
  }
  fclose(f);
+ printf("an phim bat ki de tiep tuc!\n");
+	getch();
  }
 //....................................
-void Xuat(char *filename)
+void Xuat(char *Filename)
  {
  FILE *f;
  Sinhvien sv;
- f=fopen(filename,"rb");
+ f=fopen(Filename,"rb");
  printf("MSSV SV | Ho va Ten\n"); fread(&sv,sizeof(sv),1,f);
  while(!feof(f))
  {printf("%s | %s\n",sv.MaSV,sv.HovaTen);
   fread(&sv,sizeof(sv),1,f);
  }  
  fclose(f);
+ printf("an phim bat ki de tiep tuc!\n");
+	getch();
  }
 //..........................................
-void tim(char *filename)
+void tim(char *Filename)
 {
 	char MSSV[10];
 	FILE *f;
@@ -105,7 +111,7 @@ void tim(char *filename)
 	Sinhvien sv;
 	fflush(stdin);
 	printf("Ma so sinh vien can tim:"); gets(MSSV);
-	f=fopen(filename,"rb");
+	f=fopen(Filename,"rb");
 	while (!feof(f) && Found ==0)
 	{
 	fread(&sv,sizeof(sv),1,f);
@@ -121,6 +127,8 @@ void tim(char *filename)
 	{
 		printf("Khong tim ra sv co ma %s", MSSV);
 	}
+	printf("an phim bat ki de tiep tuc!\n");
+	getch();
 }
 
 
