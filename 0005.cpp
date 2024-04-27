@@ -8,18 +8,18 @@ void taofile(void)
 	int i,x;
 	FILE *fp;
 	fp=fopen("D:\\Bang.txt","wb");
-	printf("so luong:"
+	printf("so luong:");
 	scanf("%d",&n);
-	for (i=0;i<=n;i++)
+	for (i=0;i<n;i++)
 	{
-		printf(" Nhap so thu %d", i+1);
+		printf(" Nhap so thu %d: ", i+1);
 		scanf("%d",&x);
-		fprintf(fp,"%d",x);
+		fprintf(fp,"%3d",x);
 	}
-	fclose(f);
+	fclose(fp);
 	
 }
-
+//.................................................
 void xuatfile(void)
 {
 	int x;
@@ -29,12 +29,13 @@ void xuatfile(void)
 	while(i<n)
 	{
 		fscanf(fp,"%d",&x);
-		printf("%d",x);
+		printf("%3d",x);
 		i++;
 	}
-	fclose(f);
+	fclose(fp);
 	
 }
+//...............................
 void chia(FILE *a,FILE *b,FILE *c,int p)
 {
 	int dem,x;
@@ -42,30 +43,32 @@ void chia(FILE *a,FILE *b,FILE *c,int p)
 	b=fopen("D:\\Bang1.txt","wb");
 	c=fopen("D:\\Bang2.txt","wb");
 	while(!feof(a))
-	{
+	{    
+	     // chia phan tu cho b
 		dem=0;
 		while((dem<p) && (!feof(a)))
 		{
-			fscanf(a,"%d",&x)
-			fprintf(b,"%d",x)
+			fscanf(a,"%3d",&x);
+			fprintf(b,"%3d",x);
 			dem++;
 			
 		}
+		// chia phan tu cho c
 		dem =0;
 		while ((dem <p) && (!feof(a)))
 		{
-			fscanf(a,"%d",&x);
-			fprintf(c,"%d",x)
+			fscanf(a,"%3d",&x);
+			fprintf(c,"%3d",x);
 			dem++;
 			
 		}
 	}
 	fclose(a);
-		fclose(b);
-			fclose(c);
+	fclose(b);
+	fclose(c);
 }
 
-void tron(FILE *b,FILE *c, FIlE *a, int p)
+void tron(FILE *b,FILE *c, FILE *a, int p)
 {
 	int stop,x,y,l,r;
 	a=fopen("D:\\Bang.txt","wb");
@@ -75,36 +78,94 @@ void tron(FILE *b,FILE *c, FIlE *a, int p)
 	{
 		l=0;
 		r=0;
-		fscanf(b,"%d",&x);
-		fscanf(c,"%d",&y);
+		fscanf(b,"%3d",&x);
+		fscanf(c,"%3d",&y);
 		stop=0;
 		while((l!=p) && (r!=p) && (!stop))
 		{
 			if (x<y)
 			{ 
-			 fprintf(a,"%d",x); l++;
+			 fprintf(a,"%3d",x); 
+			 l++;
 			 if((l<p) && (!feof(b)))
-			 fscanf(b,"%d",&x)
+			 fscanf(b,"%3d",&x);
 			 else
 			 {
-			 	fprintf(a,"%d",y);r++;
+			 	fprintf(a,"%3d",y);
+				 r++;
 			 	if((feof(b))) stop =1;
 			 }
 			}
 			else
 			{
-				printf(a,"%d",y);r++;
+				fprintf(a,"%3d",y);r++;
 				if((r<p) && (!feof(c)))
-				fscanf(c,"%d",&y);
+				fscanf(c,"%3d",&y);
 				else
 				{
-					fprintf(a,"%d",x);l++;
+					fprintf(a,"%3d",x);l++;
 					if((feof(c)))
 					stop=1;
 				}
 			
 			}
 		}
-		............................
+		while ((!feof(b)) && (l<p))
+		{
+			fscanf(b,"%3d",&x);
+			fprintf(a,"%3d",x);
+			l++;
+			
+		} 
+		while ((!feof(c)) && (r<p))
+		{
+			fscanf(c,"%3d",&y);
+			fscanf(a,"%3d",y);
+			r++;
+			
+		}
+		
 	}
+	if (!feof(b))
+	{
+		while (!feof(b))
+		{
+			fscanf(b,"%3d",&x);
+			fprintf(a,"%3d",x);
+			
+		}
+	}
+	if(!feof(c))
+    {
+
+        while(!feof(c))
+       {
+       fscanf(c,"%3d",&x);
+       fprintf(a,"%3d",x);
+       }
+    }
+    fclose(a);
+    fclose(b);
+	fclose(c);
+
+}
+
+int main(void)
+{
+	FILE *a,*b,*c;
+	taofile();
+	printf("phan tu vua nhap:");
+	xuatfile();
+	p=1;
+	while(p<n)
+	{
+		chia(a,b,c,p);
+		tron(b,c,a,p);
+		p=2*p;
+		
+	}
+	printf("\n");
+	printf("file sau khi run: ");
+	xuatfile();
+	getch; 	
 }
