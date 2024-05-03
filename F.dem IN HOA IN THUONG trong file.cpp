@@ -21,15 +21,15 @@ void xuat(void)
 {
     FILE *fp = fopen("D:\\count", "r"); 
     if (fp == NULL) {
-        printf("KhÙng th? m? file ? ?c.\n");
+        printf("Kh√¥ng th? m? file √∞? √∞?c.\n");
         return;
     }
     char ch;
     printf("Noi dung file:\n");
     while ((ch = fgetc(fp)) != EOF) {
-        putchar(ch); // In t?ng k? t? trong file ra m‡n h?nh
+        putchar(ch); // In t?ng k? t? trong file ra m√†n h?nh
     }
-    fclose(fp); // –Ûng file
+    fclose(fp); // √ê√≥ng file
 }    
 void count(void) {
     FILE *fp = fopen("D:\\count.txt", "r"); // Open file for reading
@@ -43,10 +43,10 @@ void count(void) {
     while ((ch = fgetc(fp)) != EOF) 
 	{
         if (isalpha(ch)) 
-		{ // Ki?m tra xem k˝ t? cÛ ph?i l‡ ch? c·i khÙng
+		{ // Ki?m tra xem k√Ω t? c√≥ ph?i l√† ch? c√°i kh√¥ng
             if (isupper(ch)) 
 			{
-                uppercase[ch - 'A']++; // Tang s? l?n xu?t hi?n c?a k˝ t? in hoa tuong ?ng
+                uppercase[ch - 'A']++; // Tang s? l?n xu?t hi?n c?a k√Ω t? in hoa tuong ?ng
             } else 
 			{
                 lowercase[ch - 'a']++; // Tang s? l?n xu?t hi?n c?a ch? thu?ng tuong ?ng
