@@ -6,7 +6,7 @@
 
 void nhapMang(int A[], int &n, int i = 0)
 {
-    // –i?u ki?n d?ng
+    // √êi?u ki?n d?ng
     if(i == n) // D?ng d? quy khi ch? s? i = n (n: s? lu?ng ph?n t? c?a m?ng)
         return;
 
@@ -14,22 +14,22 @@ void nhapMang(int A[], int &n, int i = 0)
     printf("Nhap phan tu thu A[%d] = ", i);
     scanf("%d", &A[i]);
 
-    // G?i l?i h‡m d? quy
-    // d?ng th?i tang gi· tr? c?a ch? s? i lÍn
-    // di?u n‡y cung tuong t? nhu s? d?ng vÚng l?p for d? duy?t m?ng.
+    // G?i l?i h√†m d? quy
+    // d?ng th?i tang gi√° tr? c?a ch? s? i l√™n
+    // di?u n√†y cung tuong t? nhu s? d?ng v√≤ng l?p for d? duy?t m?ng.
     nhapMang(A, n, i + 1);
 }
 
 void xuatMang(int A[], int n, int i = 0){
 
-    // –i?u ki?n d?ng
+    // √êi?u ki?n d?ng
     if(i == n)
         return;
 
     // Xu?t m?ng
     printf("%5d", A[i]);
 
-    // G?i l?i h‡m d? quy
+    // G?i l?i h√†m d? quy
     xuatMang(A, n, i + 1);
 }
 int main()
