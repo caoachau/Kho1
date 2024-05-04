@@ -14,7 +14,7 @@ void taofile(void)
 	{
 		printf(" Nhap so thu %d: ", i+1);
 		scanf("%d",&x);
-		fprintf(fp,"%3d",x);
+		fprintf(fp,"%6d",x);
 	}
 	fclose(fp);
 	
@@ -29,7 +29,7 @@ void xuatfile(void)
 	while(i<n)
 	{
 		fscanf(fp,"%d",&x);
-		printf("%3d",x);
+		printf("%6d",x);
 		i++;
 	}
 	fclose(fp);
@@ -48,8 +48,8 @@ void chia(FILE *a,FILE *b,FILE *c,int p)
 		dem=0;
 		while((dem<p) && (!feof(a)))
 		{
-			fscanf(a,"%3d",&x);
-			fprintf(b,"%3d",x);
+			fscanf(a,"%6d",&x);
+			fprintf(b,"%6d",x);
 			dem++;
 			
 		}
@@ -57,8 +57,8 @@ void chia(FILE *a,FILE *b,FILE *c,int p)
 		dem =0;
 		while ((dem <p) && (!feof(a)))
 		{
-			fscanf(a,"%3d",&x);
-			fprintf(c,"%3d",x);
+			fscanf(a,"%6d",&x);
+			fprintf(c,"%6d",x);
 			dem++;
 			
 		}
@@ -78,32 +78,32 @@ void tron(FILE *b,FILE *c, FILE *a, int p)
 	{
 		l=0;
 		r=0;
-		fscanf(b,"%3d",&x);
-		fscanf(c,"%3d",&y);
+		fscanf(b,"%6d",&x);
+		fscanf(c,"%6d",&y);
 		stop=0;
 		while((l!=p) && (r!=p) && (!stop))
 		{
 			if (x<y)
 			{ 
-			 fprintf(a,"%3d",x); 
+			 fprintf(a,"%6d",x); 
 			 l++;
 			 if((l<p) && (!feof(b)))
-			 fscanf(b,"%3d",&x);
+			 fscanf(b,"%6d",&x);
 			 else
 			 {
-			 	fprintf(a,"%3d",y);
+			 	fprintf(a,"%6d",y);
 				 r++;
 			 	if((feof(b))) stop =1;
 			 }
 			}
 			else
 			{
-				fprintf(a,"%3d",y);r++;
+				fprintf(a,"%6d",y);r++;
 				if((r<p) && (!feof(c)))
-				fscanf(c,"%3d",&y);
+				fscanf(c,"%6d",&y);
 				else
 				{
-					fprintf(a,"%3d",x);l++;
+					fprintf(a,"%6d",x);l++;
 					if((feof(c)))
 					stop=1;
 				}
@@ -112,15 +112,15 @@ void tron(FILE *b,FILE *c, FILE *a, int p)
 		}
 		while ((!feof(b)) && (l<p))
 		{
-			fscanf(b,"%3d",&x);
-			fprintf(a,"%3d",x);
+			fscanf(b,"%6d",&x);
+			fprintf(a,"%6d",x);
 			l++;
 			
 		} 
 		while ((!feof(c)) && (r<p))
 		{
-			fscanf(c,"%3d",&y);
-			fscanf(a,"%3d",y);
+			fscanf(c,"%6d",&y);
+			fscanf(a,"%6d",y);
 			r++;
 			
 		}
@@ -130,8 +130,8 @@ void tron(FILE *b,FILE *c, FILE *a, int p)
 	{
 		while (!feof(b))
 		{
-			fscanf(b,"%3d",&x);
-			fprintf(a,"%3d",x);
+			fscanf(b,"%6d",&x);
+			fprintf(a,"%6d",x);
 			
 		}
 	}
@@ -140,8 +140,8 @@ void tron(FILE *b,FILE *c, FILE *a, int p)
 
         while(!feof(c))
        {
-       fscanf(c,"%3d",&x);
-       fprintf(a,"%3d",x);
+       fscanf(c,"%6d",&x);
+       fprintf(a,"%6d",x);
        }
     }
     fclose(a);
