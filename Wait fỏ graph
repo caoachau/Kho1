@@ -1,0 +1,148 @@
+class WaitForGraph:
+    def __init__(self, num_processes):
+        self.num_processes = num_processes
+        self.graph = [[] for _ in range(num_processes)]
+    
+    def add_edge(self, process_waiting, process_holding):
+        """Add a directed edge from waiting process to holding process"""
+        if process_holding not in self.graph[process_waiting]:
+            self.graph[process_waiting].append(process_holding)
+    
+    def build_from_resource_allocation(self, processes_waiting_for, resources_held_by):
+        """Build WFG from resource allocation information
+        
+        Args:
+            processes_waiting_for: Dictionary mapping process to list of resources it's waiting for
+            resources_held_by: Dictionary mapping resource to process currently holding it
+        """
+        for process, resources_needed in processes_waiting_for.items():
+            for resource in resources_needed:
+                if resource in resources_held_by:
+                    holding_process = resources_held_by[resource]
+                    # Add edge from waiting process to holding process
+                    self.add_edge(process, holding_process)
+    
+    def is_cycle_util(self, process, visited, rec_stack):
+        """Utility function for cycle detection using DFS"""
+        # Mark current node as visited and add to recursion stack
+        visited[process] = True
+        rec_stack[process] = True
+        
+        # Recur for all neighbors
+        for neighbor in self.graph[process]:
+            # If not visited, recurse
+            if not visited[neighbor]:
+                if self.is_cycle_util(neighbor, visited, rec_stack):
+                    return True
+            # If already in recursion stack, cycle found
+            elif rec_stack[neighbor]:
+                return True
+        
+        # Remove from recursion stack before returning
+        rec_stack[process] = False
+        return False
+    
+    def has_cycle(self):
+        """Check if the Wait-For-Graph has any cycles
+        
+        Returns:
+            bool: True if deadlock detected (cycle exists), False otherwise
+        """
+        visited = [False] * self.num_processes
+        rec_stack = [False] * self.num_processes
+        
+        # Call recursive helper function for DFS traversal
+        for process in range(self.num_processes):
+            if not visited[process]:
+                if self.is_cycle_util(process, visited, rec_stack):
+                    return True
+        return False
+    
+    def detect_deadlock(self):
+        """Detect if system is in deadlock state
+        
+        Returns:
+            bool: True if deadlock exists, False otherwise
+        """
+        return self.has_cycle()
+    
+    def print_graph(self):
+        """Print the Wait-For-Graph"""
+        print("Wait-For-Graph:")
+        for i in range(self.num_processes):
+            print(f"Process {i} waiting for: {self.graph[i]}")
+
+
+# Example usage 1: The first example from the article (with deadlock)
+def example1():
+    # Create a WFG for 4 processes (P1, P2, P3, P4)
+    # For simplicity, we'll index them as 0, 1, 2, 3
+    wfg = WaitForGraph(4)
+    
+    # Define resource allocation information
+    # process_waiting_for = {process: [resources it's waiting for]}
+    processes_waiting_for = {
+        0: ['R1'],  # P1 waiting for R1
+        1: ['R4'],  # P2 waiting for R4
+        2: ['R3'],  # P3 waiting for R3
+        3: ['R2']   # P4 waiting for R2
+    }
+    
+    # resources_held_by = {resource: process holding it}
+    resources_held_by = {
+        'R1': 1,  # R1 held by P2
+        'R2': 0,  # R2 held by P1
+        'R3': 3,  # R3 held by P4
+        'R4': 2   # R4 held by P3
+    }
+    
+    # Build the Wait-For-Graph
+    wfg.build_from_resource_allocation(processes_waiting_for, resources_held_by)
+    
+    # Print the graph
+    wfg.print_graph()
+    
+    # Check for deadlock
+    if wfg.detect_deadlock():
+        print("DEADLOCK DETECTED: System is in deadlock state!")
+    else:
+        print("No deadlock detected: System is in safe state.")
+
+
+# Example usage 2: The second example from the article (without deadlock)
+def example2():
+    # Create a WFG for 4 processes (P1, P2, P3, P4)
+    wfg = WaitForGraph(4)
+    
+    # Define resource allocation information
+    processes_waiting_for = {
+        0: ['R1', 'R2'],  # P1 waiting for R1 and R2
+        1: ['R3'],        # P2 waiting for R3
+        2: [],            # P3 not waiting for any resource
+        3: ['R3']         # P4 waiting for R3
+    }
+    
+    resources_held_by = {
+        'R1': 1,  # R1 held by P2
+        'R2': 3,  # R2 held by P4
+        'R3': 2   # R3 held by P3
+    }
+    
+    # Build the Wait-For-Graph
+    wfg.build_from_resource_allocation(processes_waiting_for, resources_held_by)
+    
+    # Print the graph
+    wfg.print_graph()
+    
+    # Check for deadlock
+    if wfg.detect_deadlock():
+        print("DEADLOCK DETECTED: System is in deadlock state!")
+    else:
+        print("No deadlock detected: System is in safe state.")
+
+
+# Run the examples
+print("Example 1:")
+example1()
+print("\nExample 2:")
+example2()
